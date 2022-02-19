@@ -1,0 +1,29 @@
+---
+title: "Dados históricos de clima do INMET"
+---
+
+```{r, include=FALSE}
+library(gt)
+```
+
+
+# Curitibanos-SC
+
+```{r, include=FALSE}
+source("api_inmet.R")
+data_ini <- "2015-10-14" 
+data_fim <- "2015-10-20" 
+station <- "A860" # Curitibanos-SC
+alt = 978.10
+lat = -27.288624
+
+cbs <- get_inmet(data_ini, data_fim, station, alt, lat)
+```
+
+```{r, echo=FALSE}
+gt::gt(cbs) %>%
+  fmt_number(columns = 2:last_col(), decimals = 1)
+```
+
+
+

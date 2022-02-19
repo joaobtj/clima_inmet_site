@@ -1,0 +1,8 @@
+name: "Clima de Curitibanos"
+navbar:
+  title: "Clima de Curitibanos"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
