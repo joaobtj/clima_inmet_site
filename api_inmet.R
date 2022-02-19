@@ -57,8 +57,12 @@ get_inmet <- function(data_ini, data_fim, station, alt, lat) {
       umid_med = mean(umd_ins),
       vel_vento_med = mean(ven_vel),
       rad_glo = sum(rad_glo),
-      et0 = ET0_calc(temp_max, temp_min, temp_med, umid_med, vel_vento_med, rad_glo / 1000, alt = alt, lat = lat)
+      et0 = ET0_calc(temp_max, temp_min, temp_med, umid_med, vel_vento_med, rad_glo /1000, alt = alt, lat = lat)
     ) %>%
+    dplyr::slice_head(n=-1) %>%
+    dplyr::slice_tail(n=-1) %>%
     tidyr::drop_na() %>%
-    dplyr::arrange(desc(data))
+    dplyr::arrange(desc(data)) 
+    
+  
 }

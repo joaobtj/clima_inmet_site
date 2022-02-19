@@ -1,6 +1,6 @@
-name: "Clima de Curitibanos"
+name: "Clima INMET"
 navbar:
-  title: "Clima de Curitibanos"
+  title: "Clima INMET"
   left:
     - text: "Home"
       href: index.html

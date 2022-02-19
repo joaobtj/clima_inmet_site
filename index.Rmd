@@ -24,7 +24,8 @@ cbs <- get_inmet(data_ini, data_fim, station, alt, lat)
 
 ```{r, echo=FALSE}
 gt::gt(cbs) %>%
-  gt::fmt_number(columns = 2:last_col(), decimals = 1)
+  gt::fmt_number(columns = 2:last_col(), decimals = 1) %>%
+  gt::cols_align(align="center")
 
 ```
 
