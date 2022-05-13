@@ -6,28 +6,37 @@ title: "Dados históricos de clima do INMET"
 library(gt)
 library(magrittr)
 library(lubridate)
+library(readxl)
+source("api_inmet.R")
+
 ```
 
 
-# Curitibanos-SC
+# Estações de Santa Catarina SC
+
+# Curitibanos - SC (desde 27/02/2008)
 
 ```{r, include=FALSE}
-source("api_inmet.R")
-data_ini <- (now() %>% date() - days(30)) %>% as.character()
-data_fim <- (now() %>% date() )%>% as.character()
-station <- "A860" # Curitibanos-SC
-alt = 978.10
-lat = -27.288624
+CBS <- readxl::read_excel("estacoes.xlsx", sheet = "SC") %>% dplyr::filter(DC_NOME == "CURITIBANOS") 
 
-cbs <- get_inmet(data_ini, data_fim, station, alt, lat)
+anos <- with(CBS, seq( DT_INICIO_OPERACAO %>% year() %>% add(1) ,
+ now() %>% year() %>% subtract(1),1))
+
+a <- list()
+for (i in seq_along(anos[1:5])) {
+  a[[i]] <- with(CBS, get_inmet(data_ini = paste0(anos[i],"-01-01"), 
+                                data_fim = paste0(anos[i]+1, "-01-01"), 
+                                station=CD_ESTACAO, 
+                                alt=VL_ALTITUDE, 
+                                lat=VL_LATITUDE)) %>% filter(year(data) ==anos[i])
+}
+
+
+readr::write_csv(bind_rows(a), "data/cbs.csv")
+
 ```
 
-```{r, echo=FALSE}
-gt::gt(cbs) %>%
-  gt::fmt_number(columns = 2:last_col(), decimals = 1) %>%
-  gt::cols_align(align="center")
 
-```
-
+Download dos dados para Curitibanos-SC: [cbs.csv](data/cbs.csv)
 
 
